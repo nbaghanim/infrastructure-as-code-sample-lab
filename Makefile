@@ -17,7 +17,7 @@ plan:
 	terraform plan -out plan.out -var-file=terraform.tfvars
 
 apply:
-	terraform apply plan.out -var-file=terraform.tfvars
+	terraform apply plan.out 
 
 up:
 	terraform apply -auto-approve -var-file=terraform.tfvars

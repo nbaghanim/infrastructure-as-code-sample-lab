@@ -14,14 +14,14 @@ variable "name" {
 }
 
 variable "aws_region" {
-  description = "London"
-  default     = "eu-west-2"
+  description = "Bahrain"
+  default     = "me-south-1"
 }
 
-# Ubuntu Ubuntu Server 18.04 LTS 
+# Ubuntu Server 18.04 LTS 
 variable "aws_amis" {
   description = "What to put on the servers!"
   default = {
-    eu-west-2 = "ami-0d10b0466e0da977c"
+    me-south-1 = "ami-051274f257aba97f9"
   }
 }
