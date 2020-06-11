@@ -1,8 +1,8 @@
 module "lab_labels" {
   source      = "git::https://github.com/cloudposse/terraform-null-label.git"
-  namespace   = "KnowledgeHut"
+  namespace   = format("kh_lab_%s", var.name)
   environment = "lab"
-  name        = "DevOps-Bootcamp"
+  name        = format("DevOps-Bootcamp_%s", var.name)
   attributes  = ["public"]
   delimiter   = "_"
 
@@ -69,7 +69,7 @@ resource "aws_elb" "lab_elb_web" {
   aws_subnet.lab_subnet.id]
   security_groups = [
   aws_security_group.lab_sg.id]
-  instances = [aws_instance.lab_ec2_1.*.id]
+  instances = aws_instance.lab_ec2_1.*.id
 
   listener {
     instance_port     = 80

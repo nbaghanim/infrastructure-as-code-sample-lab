@@ -14,16 +14,16 @@ fmt:
 	terraform fmt -recursive
 
 plan:
-	terraform plan -out plan.out
+	terraform plan -out plan.out -var-file=terraform.tfvars
 
 apply:
-	terraform apply plan.out
+	terraform apply plan.out -var-file=terraform.tfvars
 
 up:
-	terraform apply -auto-approve
+	terraform apply -auto-approve -var-file=terraform.tfvars
 
 down:
-	terraform destroy -auto-approve
+	terraform destroy -auto-approve 
 
 init:
 	rm -rf .terraform ssh

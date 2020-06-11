@@ -1,6 +1,6 @@
 variable "public_key_path" {
   description = "path to public key to inject into the instances to allow ssh"
-  default     = "../ssh/id_rsa.pub"
+  default     = "./ssh/id_rsa.pub"
 }
 
 variable "key_name" {
@@ -9,7 +9,7 @@ variable "key_name" {
 }
 
 variable "name" {
-  description = "A name to be applied to everythign"
+  description = "A name to be applied to make everything unique and personal"
   default     = "lab"
 }
 

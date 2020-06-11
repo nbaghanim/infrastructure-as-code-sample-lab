@@ -1,5 +1,5 @@
 provider "aws" {
-  profile = "default"
+  profile = "kh-labs"
   region  = "me-south-1"
 
 }
