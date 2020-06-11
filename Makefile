@@ -2,7 +2,7 @@
 run: stop start exec
 
 start:
-	docker run -it -d -v /var/run/docker.sock:/var/run/docker.sock -v $$(pwd):/work -v /mnt/c/Users/bryan/.ssh:/root/.ssh -v $$HOME:/host -v aws:/root/.aws -v /mnt/c/Users/bryan:/bryan -w /work --name pawst bryandollery/terraform-packer-aws-alpine
+	docker run -it -d -v /var/run/docker.sock:/var/run/docker.sock -v $$(pwd):/work -v /mnt/c/Users/bryan/.ssh:/root/.ssh -v $$HOME:/host -v $$PWD/creds:/root/.aws -v /mnt/c/Users/bryan:/bryan -w /work --name pawst bryandollery/terraform-packer-aws-alpine
 
 exec:
 	docker exec -it pawst bash || true
