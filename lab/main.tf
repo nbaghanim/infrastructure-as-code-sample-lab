@@ -64,12 +64,12 @@ resource "aws_security_group" "lab_sg" {
 }
 
 resource "aws_elb" "lab_elb_web" {
-  name = "terraform-example-elb"
+  name = format("%selb", var.name)
   subnets = [
   aws_subnet.lab_subnet.id]
   security_groups = [
   aws_security_group.lab_sg.id]
-  instances = aws_instance.lab_ec2_1.*.id
+  instances = aws_instance.lab_nodes.*.id
 
   listener {
     instance_port     = 80
@@ -86,7 +86,7 @@ resource "aws_key_pair" "lab_keypair" {
   public_key = file(var.public_key_path)
 }
 
-resource "aws_instance" "lab_ec2_1" {
+resource "aws_instance" "lab_nodes" {
   count = 3
 
   instance_type          = "t3.micro"
