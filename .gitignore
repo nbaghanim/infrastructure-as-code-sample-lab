@@ -1,0 +1,6 @@
+ssh/*
+.terraform
+*.backup
+.idea
+*.out
+plan.out
