@@ -89,7 +89,7 @@ resource "aws_key_pair" "lab_keypair" {
 resource "aws_instance" "lab_ec2_1" {
   count = 3
 
-  instance_type          = "t2.medium"
+  instance_type          = "t3.micro"
   ami                    = lookup(var.aws_amis, var.aws_region)
   key_name               = aws_key_pair.lab_keypair.id
   vpc_security_group_ids = [aws_security_group.lab_sg.id]
