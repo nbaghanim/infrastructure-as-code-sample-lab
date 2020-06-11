@@ -25,6 +25,8 @@ up:
 down:
 	terraform destroy -auto-approve 
 
+test:
+	ssh -i ssh/id_rsa ubuntu@$$(terraform output -json | jq '.nodes.value[0]' | xargs)
 init:
 	rm -rf .terraform ssh
 	mkdir ssh
