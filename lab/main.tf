@@ -1,8 +1,8 @@
 module "lab_labels" {
   source      = "git::https://github.com/cloudposse/terraform-null-label.git"
-  namespace   = format("kh_lab_%s", var.name)
+  namespace   = format("kh-lab-%s", var.name)
   environment = "lab"
-  name        = format("DevOps-Bootcamp_%s", var.name)
+  name        = format("DevOps-Bootcamp-%s", var.name)
   attributes  = ["public"]
   delimiter   = "_"
 
