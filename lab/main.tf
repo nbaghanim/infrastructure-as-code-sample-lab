@@ -5,7 +5,6 @@ module "lab_labels" {
   name        = format("DevOps-Bootcamp-%s", var.name)
   attributes  = ["public"]
   delimiter   = "_"
-
 }
 
 resource "aws_vpc" "lab" {
@@ -37,45 +36,24 @@ resource "aws_security_group" "lab_sg" {
   vpc_id      = aws_vpc.lab.id
 
   ingress {
-    from_port = 22
-    to_port   = 22
-    protocol  = "tcp"
-    cidr_blocks = [
-    "0.0.0.0/0"]
+    from_port   = 22
+    to_port     = 22
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
   }
 
   ingress {
-    from_port = 80
-    to_port   = 80
-    protocol  = "tcp"
-    cidr_blocks = [
-    "10.0.0.0/16"]
+    from_port   = 80
+    to_port     = 80
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
   }
 
   egress {
-    from_port = 0
-    to_port   = 0
-    protocol  = "-1"
-    cidr_blocks = [
-    "0.0.0.0/0"]
-  }
-
-  tags = module.lab_labels.tags
-}
-
-resource "aws_elb" "lab_elb_web" {
-  name = format("%selb", var.name)
-  subnets = [
-  aws_subnet.lab_subnet.id]
-  security_groups = [
-  aws_security_group.lab_sg.id]
-  instances = aws_instance.lab_nodes.*.id
-
-  listener {
-    instance_port     = 80
-    instance_protocol = "http"
-    lb_port           = 80
-    lb_protocol       = "http"
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
   }
 
   tags = module.lab_labels.tags
@@ -87,7 +65,7 @@ resource "aws_key_pair" "lab_keypair" {
 }
 
 resource "aws_instance" "lab_nodes" {
-  count = 3
+  count = 2
 
   instance_type          = "t3.micro"
   ami                    = lookup(var.aws_amis, var.aws_region)
@@ -95,4 +73,18 @@ resource "aws_instance" "lab_nodes" {
   vpc_security_group_ids = [aws_security_group.lab_sg.id]
   subnet_id              = aws_subnet.lab_subnet.id
   tags                   = module.lab_labels.tags
+
+  provisioner "remote-exec" {
+    connection {
+      type        = "ssh"
+      user        = "ubuntu"
+      host        = self.public_ip
+      private_key = file(var.private_key_path)
+    }
+
+    inline = [
+      "cd /home/ubuntu && mkdir -p wibble && touch ./wibble/wobble.txt && sudo apt update && apt install -y curl jq vim"
+    ]
+  }
+
 }

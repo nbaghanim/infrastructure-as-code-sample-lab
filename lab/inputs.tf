@@ -1,3 +1,8 @@
+variable "private_key_path" {
+  description = "path to private key to inject into the instances to allow ssh"
+  default     = "./ssh/id_rsa"
+}
+
 variable "public_key_path" {
   description = "path to public key to inject into the instances to allow ssh"
   default     = "./ssh/id_rsa.pub"
