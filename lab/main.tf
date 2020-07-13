@@ -1,4 +1,4 @@
-module "lab_labels" {
+module "tag_generator" {
   source      = "git::https://github.com/cloudposse/terraform-null-label.git"
   namespace   = format("kh-lab-%s", var.name)
   environment = var.name
@@ -7,14 +7,23 @@ module "lab_labels" {
   delimiter   = "_"
 }
 
+module "ec2_tag_generator" {
+  source      = "git::https://github.com/cloudposse/terraform-null-label.git"
+  namespace   = format("kh-lab-%s", var.name)
+  environment = var.name
+  name        = format("%s_ec2_instance", var.name)
+  attributes  = ["public", "instance"]
+  delimiter   = "_"
+}
+
 resource "aws_vpc" "lab" {
   cidr_block = "10.0.0.0/16"
-  tags       = module.lab_labels.tags
+  tags       = module.tag_generator.tags
 }
 
 resource "aws_internet_gateway" "lab_gateway" {
   vpc_id = aws_vpc.lab.id
-  tags   = module.lab_labels.tags
+  tags   = module.tag_generator.tags
 }
 
 resource "aws_route" "lab_internet_access" {
@@ -27,7 +36,7 @@ resource "aws_subnet" "lab_subnet" {
   vpc_id                  = aws_vpc.lab.id
   cidr_block              = "10.0.1.0/24"
   map_public_ip_on_launch = true
-  tags                    = module.lab_labels.tags
+  tags                    = module.tag_generator.tags
 }
 
 resource "aws_security_group" "lab_sg" {
@@ -56,7 +65,7 @@ resource "aws_security_group" "lab_sg" {
     cidr_blocks = ["0.0.0.0/0"]
   }
 
-  tags = module.lab_labels.tags
+  tags = module.tag_generator.tags
 }
 
 resource "aws_key_pair" "lab_keypair" {
@@ -72,7 +81,7 @@ resource "aws_instance" "lab_nodes" {
   key_name               = aws_key_pair.lab_keypair.id
   vpc_security_group_ids = [aws_security_group.lab_sg.id]
   subnet_id              = aws_subnet.lab_subnet.id
-  tags                   = module.lab_labels.tags
+  tags                   = module.ec2_tag_generator.tags
 
   provisioner "remote-exec" {
     connection {
