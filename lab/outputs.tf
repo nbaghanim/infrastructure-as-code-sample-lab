@@ -1,3 +1,6 @@
-output "nodes" {
-  value = aws_instance.lab_nodes.*.public_ip
+output "webservers" {
+  value = aws_instance.webserver.*.public_ip
+}
+output "databases" {
+  value = aws_instance.database.*.public_ip
 }

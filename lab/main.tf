@@ -7,12 +7,21 @@ module "tag_generator" {
   delimiter   = "_"
 }
 
-module "ec2_tag_generator" {
+module "webserver_tag_generator" {
   source      = "git::https://github.com/cloudposse/terraform-null-label.git"
   namespace   = format("kh-lab-%s", var.name)
   environment = var.name
   name        = format("%s_ec2_instance", var.name)
-  attributes  = ["public", "instance"]
+  attributes  = ["webserver"]
+  delimiter   = "_"
+}
+
+module "database_tag_generator" {
+  source      = "git::https://github.com/cloudposse/terraform-null-label.git"
+  namespace   = format("kh-lab-%s", var.name)
+  environment = var.name
+  name        = format("%s_ec2_instance", var.name)
+  attributes  = ["database"]
   delimiter   = "_"
 }
 
@@ -73,27 +82,22 @@ resource "aws_key_pair" "lab_keypair" {
   public_key = file(var.public_key_path)
 }
 
-resource "aws_instance" "lab_nodes" {
-  count = 2
-
+resource "aws_instance" "webserver" {
+	count = 2
   instance_type          = "t3.micro"
   ami                    = lookup(var.aws_amis, var.aws_region)
   key_name               = aws_key_pair.lab_keypair.id
   vpc_security_group_ids = [aws_security_group.lab_sg.id]
   subnet_id              = aws_subnet.lab_subnet.id
-  tags                   = module.ec2_tag_generator.tags
+  tags                   = module.webserver_tag_generator.tags
+}
 
-  provisioner "remote-exec" {
-    connection {
-      type        = "ssh"
-      user        = "ubuntu"
-      host        = self.public_ip
-      private_key = file(var.private_key_path)
-    }
-
-    inline = [
-      "cd /home/ubuntu && mkdir -p wibble && touch ./wibble/wobble.txt && sudo apt update && sudo apt install -y curl jq vim"
-    ]
-  }
-
+resource "aws_instance" "database" {
+	count = 1
+  instance_type          = "t3.micro"
+  ami                    = lookup(var.aws_amis, var.aws_region)
+  key_name               = aws_key_pair.lab_keypair.id
+  vpc_security_group_ids = [aws_security_group.lab_sg.id]
+  subnet_id              = aws_subnet.lab_subnet.id
+  tags                   = module.database_tag_generator.tags
 }

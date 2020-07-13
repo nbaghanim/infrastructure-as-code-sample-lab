@@ -1,9 +1,18 @@
-output "dev" {
-  value = module.dev.nodes
+output "dev-webservers" {
+  value = module.dev.webservers
 }
-output "test" {
-  value = module.test.nodes
+output "dev-databases" {
+  value = module.dev.databases
 }
-output "prod" {
-  value = module.prod.nodes
+output "test-webservers" {
+  value = module.test.webservers
+}
+output "test-databases" {
+  value = module.test.databases
+}
+output "prod-webservers" {
+  value = module.prod.webservers
+}
+output "prod-databases" {
+  value = module.prod.databases
 }
