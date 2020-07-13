@@ -4,3 +4,6 @@ output "dev" {
 output "test" {
   value = module.test.nodes
 }
+output "prod" {
+  value = module.prod.nodes
+}
