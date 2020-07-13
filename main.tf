@@ -3,9 +3,23 @@ provider "aws" {
   region  = "me-south-1"
 }
 
-module "labs" {
+module "dev" {
+  name            = "dev"
   source          = "./lab"
-  name            = var.name
+  key_name        = var.key_name
+  public_key_path = var.public_key_path
+}
+
+module "test" {
+  name            = "test"
+  source          = "./lab"
+  key_name        = var.key_name
+  public_key_path = var.public_key_path
+}
+
+module "prod" {
+  name            = "prod"
+  source          = "./lab"
   key_name        = var.key_name
   public_key_path = var.public_key_path
 }

@@ -1,7 +1,7 @@
 module "lab_labels" {
   source      = "git::https://github.com/cloudposse/terraform-null-label.git"
   namespace   = format("kh-lab-%s", var.name)
-  environment = "lab"
+  environment = var.name
   name        = format("DevOps-Bootcamp-%s", var.name)
   attributes  = ["public"]
   delimiter   = "_"
@@ -83,7 +83,7 @@ resource "aws_instance" "lab_nodes" {
     }
 
     inline = [
-      "cd /home/ubuntu && mkdir -p wibble && touch ./wibble/wobble.txt && sudo apt update && apt install -y curl jq vim"
+      "cd /home/ubuntu && mkdir -p wibble && touch ./wibble/wobble.txt && sudo apt update && sudo apt install -y curl jq vim"
     ]
   }
 
