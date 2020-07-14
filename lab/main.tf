@@ -83,9 +83,9 @@ resource "aws_key_pair" "lab_keypair" {
 }
 
 resource "aws_instance" "webserver" {
-	count = 2
+  count                  = 2
   instance_type          = "t3.micro"
-  ami                    = lookup(var.aws_amis, var.aws_region)
+  ami                    = "ami-0f132f5f9da420fd1"
   key_name               = aws_key_pair.lab_keypair.id
   vpc_security_group_ids = [aws_security_group.lab_sg.id]
   subnet_id              = aws_subnet.lab_subnet.id
@@ -93,11 +93,12 @@ resource "aws_instance" "webserver" {
 }
 
 resource "aws_instance" "database" {
-	count = 1
+  count                  = 1
   instance_type          = "t3.micro"
-  ami                    = lookup(var.aws_amis, var.aws_region)
+  ami                    = "ami-0f132f5f9da420fd1"
   key_name               = aws_key_pair.lab_keypair.id
   vpc_security_group_ids = [aws_security_group.lab_sg.id]
   subnet_id              = aws_subnet.lab_subnet.id
   tags                   = module.database_tag_generator.tags
 }
+
