@@ -1,7 +1,7 @@
-output "address" {
-  value = module.labs.address
+output "webserver" {
+  value = module.dev.webserver
 }
 
-output "nodes" {
-	value = module.labs.nodes
+output "database" {
+	value = module.dev.database
 }

@@ -5,12 +5,12 @@ variable "public_key_path" {
 
 variable "key_name" {
   description = "master key for the lab"
-  default     = "lab-key"
+  default     = "env-key"
 }
 
 variable "name" {
   description = "A name to be applied to make everything unique and personal"
-  default     = "lab"
+  default     = "env"
 }
 
 variable "aws_region" {
