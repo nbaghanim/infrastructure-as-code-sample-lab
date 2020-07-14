@@ -1,25 +1,25 @@
 provider "aws" {
-  profile = "kh-labs"
+  profile = "kh-envs"
   region  = "me-south-1"
 }
 
 module "dev" {
   name            = "dev"
-  source          = "./lab"
+  source          = "./env"
   key_name        = var.key_name
   public_key_path = var.public_key_path
 }
 
 module "test" {
   name            = "test"
-  source          = "./lab"
+  source          = "./env"
   key_name        = var.key_name
   public_key_path = var.public_key_path
 }
 
 module "prod" {
   name            = "prod"
-  source          = "./lab"
+  source          = "./env"
   key_name        = var.key_name
   public_key_path = var.public_key_path
 }
